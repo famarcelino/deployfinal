@@ -1,0 +1,40 @@
+- name: Instalando docker
+  hosts: docker
+  tasks:
+
+   - name: preparando o cenario para o docker
+     package:
+      name:
+       - python-pip
+
+   - name: instalando o docker-py para gerenciar o docker com ansible
+     pip:
+      name: docker-py
+
+
+   - name: instalando dependencias docker-ce 
+     package:
+      name: 
+       - ca-certificates
+       - apt-transport-https
+       - curl
+       - software-properties-common
+      state: present
+
+   - name: Adicionando chaves
+     apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+      state: present
+
+   - name: instalando docker
+     package: 
+      name: docker-ce
+     state: present
+
+   - name: instalar nginx
+     package:
+      name: nginx
+      state: present
+      update_cache: yes
+

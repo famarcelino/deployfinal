@@ -1,0 +1,32 @@
+- name: criando volumes e containers
+  hosts: docker
+  tasks:
+   - name: criando volume green
+     docker_volume:
+      name: index_green
+      state: present
+
+   - name: criando volume blue
+     docker_volume:
+      name: index_blue
+      state: present
+
+   - name: criando o container green
+     docker_container:
+      name: green
+      image: httpd
+      state: started
+      ports: 
+       - 8082:80
+      volumes:
+       - /index_green:/usr/local/apache2/htdocs
+
+   - name: criando container blue
+     docker_container:
+      name: blue
+      image: httpd
+      state: started
+      ports:
+       - 8083:80
+      volumes:
+       - /index_blue:/usr/local/apache2/htdocs
